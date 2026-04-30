@@ -1,2 +1,2 @@
 # jeux
-Petit site web en local fais en vibe-code pour jouer en local
+Petit site web en local fais en vibe-code pour jouer

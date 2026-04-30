@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxe Evolution Casino</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="tier-1">
+    
+    <!-- Écran d'accueil / Login -->
+    <div id="login-screen" class="screen">
+        <div class="modal">
+            <h1>Luxe Evolution</h1>
+            <p>Entrez votre capital de départ (Argent virtuel)</p>
+            <input type="number" id="initial-deposit" placeholder="Ex: 1000" min="10">
+            <button onclick="startGame()">Entrer dans le Casino</button>
+        </div>
+    </div>
+
+    <!-- Interface principale -->
+    <div id="main-ui" class="hidden">
+        <header>
+            <div class="status">
+                <span id="rank-name">NIVEAU : BRONZE</span>
+                <div class="balance-display">Solde: <span id="balance-val">0</span>€</div>
+            </div>
+            <button onclick="exitToLobby()" id="btn-lobby" class="hidden">Retour Lobby</button>
+        </header>
+
+        <!-- Lobby (Choix des jeux) -->
+        <div id="lobby" class="game-container">
+            <div class="card" onclick="openGame('slots')">
+                <div class="card-img">🎰</div>
+                <h2>Machines à Sous</h2>
+                <p>Multipliez votre mise par 10 !</p>
+            </div>
+            <div class="card" onclick="openGame('cards')">
+                <div class="card-img">🃏</div>
+                <h2>Blackjack Simplifié</h2>
+                <p>Battez la banque</p>
+            </div>
+        </div>
+
+        <!-- Jeu : Machine à sous -->
+        <div id="game-slots" class="game-view hidden">
+            <div class="slot-machine">
+                <div class="reels">
+                    <div class="reel" id="reel1">?</div>
+                    <div class="reel" id="reel2">?</div>
+                    <div class="reel" id="reel3">?</div>
+                </div>
+                <input type="number" id="bet-slots" placeholder="Mise">
+                <button onclick="spinSlots()" class="btn-play">LANCER</button>
+            </div>
+        </div>
+
+        <!-- Jeu : Cartes -->
+        <div id="game-cards" class="game-view hidden">
+            <div class="card-table">
+                <div class="dealer-area">Banque: <span id="dealer-card">?</span></div>
+                <div class="player-area">Vous: <span id="player-card">?</span></div>
+                <input type="number" id="bet-cards" placeholder="Mise">
+                <button onclick="playCards()" class="btn-play">TIRER UNE CARTE</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

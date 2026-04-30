@@ -1,0 +1,82 @@
+:root {
+    --primary: #cd7f32; 
+    --bg: #050505; 
+    --surface: #1a1a1a;
+    --win: #00ff88; 
+    --loss: #ff3366; 
+    --gold: #ffd700;
+}
+
+body { 
+    margin: 0; 
+    font-family: 'Segoe UI', sans-serif; 
+    background: var(--bg); 
+    color: #fff; 
+    overflow-x: hidden; 
+    height: 100vh; 
+    display: flex; 
+    flex-direction: column; 
+}
+
+.hidden { display: none !important; }
+
+/* NOTIFICATIONS */
+#notify {
+    position: fixed; top: 20px; right: 20px; padding: 15px 25px; border-radius: 8px;
+    background: #222; border-left: 5px solid var(--primary); z-index: 10000;
+    transition: 0.5s; transform: translateX(150%);
+}
+#notify.show { transform: translateX(0); }
+
+/* ECRAN DE DEPART */
+#scr-start {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle, #2c1e12, #050505);
+    display: flex; align-items: center; justify-content: center; z-index: 5000;
+}
+.start-box {
+    background: #111; padding: 40px; border-radius: 20px; text-align: center;
+    border: 2px solid var(--primary); box-shadow: 0 0 30px rgba(205, 127, 50, 0.2);
+}
+
+/* HEADER & LOBBY */
+header {
+    display: flex; justify-content: space-between; align-items: center; padding: 15px 30px;
+    background: rgba(0,0,0,0.9); border-bottom: 2px solid var(--primary);
+}
+.container { max-width: 1000px; margin: 20px auto; padding: 20px; width: 100%; box-sizing: border-box; }
+.lobby-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
+.card { background: var(--surface); border-radius: 15px; padding: 20px; text-align: center; cursor: pointer; border: 1px solid #333; transition: 0.2s; }
+.card:hover { border-color: var(--primary); transform: translateY(-3px); }
+.card i { font-size: 2.5rem; display: block; margin-bottom: 10px; font-style: normal; }
+
+/* ZONE DE JEU */
+.game-view { background: #111; border-radius: 20px; padding: 20px; border: 1px solid var(--primary); text-align: center; min-height: 400px; position: relative; }
+.game-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 20px; }
+.btn-help { background: #333; color: #fff; border: 1px solid #555; border-radius: 50px; padding: 5px 15px; cursor: pointer; font-size: 0.9rem; }
+
+/* ELEMENTS COMMUNS */
+.controls { margin-top: 20px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+input { background: #222; border: 1px solid var(--primary); color: #fff; padding: 10px; border-radius: 5px; width: 100px; text-align: center; font-size: 1.1rem; }
+button { background: var(--primary); color: #000; border: none; padding: 10px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 1rem; }
+button:hover { filter: brightness(1.1); transform: scale(1.02); }
+button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+/* JEUX SPECIFIQUES */
+.playing-card { width: 60px; height: 90px; background: #fff; color: #000; border-radius: 5px; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold; margin: 5px; border: 1px solid #999; vertical-align: top; }
+.card-red { color: #e74c3c; }
+
+.wheel-box { position: relative; width: 250px; height: 250px; margin: 20px auto; }
+.wheel-canvas { width: 100%; height: 100%; border-radius: 50%; border: 5px solid #444; transition: transform 4s cubic-bezier(0.1, 0, 0.1, 1); }
+.pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); color: gold; font-size: 2rem; z-index: 10; }
+
+.mines-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; max-width: 300px; margin: 20px auto; }
+.mine-tile { height: 50px; background: #333; border-radius: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+.mine-tile.revealed { background: #444; pointer-events: none; }
+.mine-tile.bomb { background: var(--loss); }
+.mine-tile.gem { background: var(--win); }
+
+.p-slot { flex: 1; font-size: 0.8rem; background: #333; padding: 5px 0; border-radius: 3px; border: 1px solid #555; }
+.p-slot[data-mult="5"] { background: var(--win); color: #000; }
+.p-slot[data-mult="2"] { background: #27ae60; color: #fff; }
+.p-slot[data-mult="0.2"] { background: var(--loss); color: #fff; }

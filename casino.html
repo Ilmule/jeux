@@ -3,428 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EVOLUTION CASINO - Entraînement</title>
-    <style>
-        /* --- CSS --- */
-        :root {
-            --primary: #cd7f32; /* Bronze par défaut */
-            --bg-dark: #0f0f0f;
-            --surface: #1e1e1e;
-            --gold: #ffd700;
-            --silver: #c0c0c0;
-            --platinum: #e5e4e2;
-            --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-dark);
-            color: white;
-            overflow-x: hidden;
-            transition: var(--transition);
-        }
-
-        /* Thèmes évolutifs */
-        body.tier-bronze { --primary: #cd7f32; background: radial-gradient(circle, #2c1e14 0%, #000 100%); }
-        body.tier-silver { --primary: #95a5a6; background: radial-gradient(circle, #2c3e50 0%, #000 100%); }
-        body.tier-gold { --primary: #ffd700; background: radial-gradient(circle, #3d3000 0%, #000 100%); }
-        body.tier-vip { --primary: #00f2ff; background: radial-gradient(circle, #1a0033 0%, #000 100%); box-shadow: inset 0 0 150px rgba(0, 242, 255, 0.2); }
-
-        .hidden { display: none !important; }
-
-        /* Écran d'accueil */
-        #login-screen {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1596838132731-dd964a977517?auto=format&fit=crop&q=80&w=1000');
-            background-size: cover;
-        }
-
-        .fancy-card {
-            background: rgba(0, 0, 0, 0.8);
-            padding: 40px;
-            border-radius: 20px;
-            border: 2px solid var(--primary);
-            box-shadow: 0 0 30px var(--primary);
-            max-width: 400px;
-        }
-
-        input {
-            width: 80%;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 10px;
-            border: none;
-            background: #333;
-            color: white;
-            font-size: 1.2rem;
-            text-align: center;
-        }
-
-        button {
-            padding: 15px 30px;
-            border-radius: 10px;
-            border: none;
-            background: var(--primary);
-            color: black;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: 0.3s;
-        }
-
-        button:hover {
-            transform: scale(1.05);
-            filter: brightness(1.2);
-        }
-
-        /* Interface Principale */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 50px;
-            background: rgba(0,0,0,0.8);
-            border-bottom: 2px solid var(--primary);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .status-info { text-align: left; }
-        .rank-badge { 
-            font-size: 0.8rem; 
-            padding: 3px 10px; 
-            border-radius: 20px; 
-            background: var(--primary); 
-            color: black; 
-            font-weight: bold;
-        }
-
-        #balance-display { font-size: 2rem; color: var(--primary); font-weight: bold; }
-
-        /* Lobby */
-        .container { max-width: 1200px; margin: 40px auto; padding: 20px; }
-        
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .game-card {
-            background: var(--surface);
-            border-radius: 15px;
-            overflow: hidden;
-            border: 1px solid #444;
-            transition: var(--transition);
-            cursor: pointer;
-            position: relative;
-        }
-
-        .game-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .game-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            filter: grayscale(0.5);
-        }
-        .game-card:hover img { filter: grayscale(0); }
-
-        .game-card-content { padding: 20px; }
-
-        /* Jeux Spécifiques */
-        .game-area {
-            background: rgba(0,0,0,0.6);
-            padding: 40px;
-            border-radius: 30px;
-            text-align: center;
-            border: 1px solid var(--primary);
-            margin-top: 20px;
-        }
-
-        /* Machine à sous */
-        .slot-container {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 30px 0;
-        }
-
-        .reel {
-            width: 100px;
-            height: 120px;
-            background: white;
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 4rem;
-            color: black;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
-            transition: transform 0.1s;
-        }
-
-        /* Cartes */
-        .table-cards {
-            display: flex;
-            justify-content: space-around;
-            margin: 40px 0;
-        }
-        .card-spot {
-            background: #1a472a;
-            border: 3px dashed var(--primary);
-            width: 120px;
-            height: 180px;
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        .card-val { font-size: 3rem; font-weight: bold; }
-
-        /* Animations */
-        @keyframes goldGlow {
-            0% { box-shadow: 0 0 10px var(--primary); }
-            50% { box-shadow: 0 0 30px var(--primary); }
-            100% { box-shadow: 0 0 10px var(--primary); }
-        }
-        .tier-vip .game-area { animation: goldGlow 2s infinite; }
-
-    </style>
+    <title>GRAND PALACE - Casino Online</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="tier-bronze">
+<body>
 
-    <!-- ÉCRAN D'ACCUEIL -->
-    <div id="login-screen">
-        <div class="fancy-card">
-            <h1 style="margin-top:0; letter-spacing: 4px;">CASINO EVOLUTION</h1>
-            <p>Bienvenue dans la simulation haute fidélité.</p>
-            <label>Capital de départ (virtuel) :</label><br>
-            <input type="number" id="start-money" value="1000" min="100">
-            <br>
-            <button onclick="initCasino()">Ouvrir les portes</button>
+<div id="notify">Message</div>
+
+<!-- ECRAN DE DEMARRAGE -->
+<div id="scr-start">
+    <div class="start-box">
+        <h1 style="color:var(--primary); letter-spacing: 5px; margin-top:0;">GRAND PALACE</h1>
+        <p>Entrez votre capital de départ :</p>
+        <input type="number" id="start-bal" value="1000" style="margin-bottom: 20px; width: 150px;">
+        <br>
+        <button onclick="bootGame()" style="width: 100%;">ENTRER DANS LE CASINO</button>
+    </div>
+</div>
+
+<!-- LOBBY PRINCIPAL -->
+<div id="scr-main" class="hidden" style="width: 100%; flex: 1;">
+    <header>
+        <button id="btn-back" class="hidden" onclick="showLobby()" style="background:transparent; color:var(--primary); border:1px solid var(--primary)">← LOBBY</button>
+        <div id="balance-display" style="font-size: 1.5rem; font-weight: bold;">0 €</div>
+    </header>
+
+    <div class="container">
+        <div id="lobby" class="lobby-grid">
+            <div class="card" onclick="openGame('bj')"><i>🃏</i>Blackjack</div>
+            <div class="card" onclick="openGame('mines')"><i>💣</i>Mines</div>
+            <div class="card" onclick="openGame('roulette')"><i>🎡</i>Roulette</div>
+            <div class="card" onclick="openGame('crash')"><i>🚀</i>Crash</div>
+            <div class="card" onclick="openGame('slots')"><i>🎰</i>Slots</div>
+            <div class="card" onclick="openGame('plinko')"><i>🎾</i>Plinko</div>
+            <div class="card" onclick="openGame('poker')"><i>💎</i>Poker</div>
+            <div class="card" onclick="openGame('dice')"><i>🎲</i>Dés</div>
+            <div class="card" onclick="openGame('hilo')"><i>📈</i>Hi-Lo</div>
+            <div class="card" onclick="openGame('baccarat')"><i>💰</i>Baccarat</div>
+        </div>
+
+        <div id="game-container" class="hidden">
+            <div id="game-screen" class="game-view"></div>
         </div>
     </div>
+</div>
 
-    <!-- UI PRINCIPALE (Masquée au début) -->
-    <div id="main-ui" class="hidden">
-        <header>
-            <div class="status-info">
-                <span id="rank-text" class="rank-badge">BRONZE</span>
-                <div id="balance-display">1 000 €</div>
-            </div>
-            <h2 id="casino-title" style="margin:0; color:var(--primary)">LE BOUGE</h2>
-            <button id="btn-lobby" class="hidden" onclick="showLobby()" style="background: transparent; color: white; border: 1px solid white;">Quitter la table</button>
-        </header>
-
-        <div class="container">
-            <!-- LOBBY -->
-            <div id="lobby-view" class="grid">
-                <div class="game-card" onclick="startSlots()">
-                    <img src="https://images.unsplash.com/photo-1596838132731-dd964a977517?q=80&w=400" alt="Slots">
-                    <div class="game-card-content">
-                        <h3>Machines à Sous</h3>
-                        <p>Alignez les diamants pour gagner jusqu'à 50x votre mise.</p>
-                    </div>
-                </div>
-
-                <div class="game-card" onclick="startCards()">
-                    <img src="https://images.unsplash.com/photo-1511193311914-0346f16efe90?q=80&w=400" alt="Cards">
-                    <div class="game-card-content">
-                        <h3>Bataille Royale</h3>
-                        <p>Le plus gros chiffre l'emporte. Simple. Efficace.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- JEU : MACHINE À SOUS -->
-            <div id="game-slots" class="game-area hidden">
-                <h1>SLOTS CLASSIC</h1>
-                <div class="slot-container">
-                    <div class="reel" id="r1">?</div>
-                    <div class="reel" id="r2">?</div>
-                    <div class="reel" id="r3">?</div>
-                </div>
-                <div style="margin-bottom: 20px;">
-                    <input type="number" id="bet-slots" value="10" min="1" style="width: 100px;">
-                    <p>Mise actuelle</p>
-                </div>
-                <button onclick="playSlots()" id="spin-button">Lancer la machine</button>
-            </div>
-
-            <!-- JEU : CARTES -->
-            <div id="game-cards" class="game-area hidden">
-                <h1>BATAILLE ROYALE</h1>
-                <div class="table-cards">
-                    <div>
-                        <p>BANQUE</p>
-                        <div class="card-spot"><span class="card-val" id="d-card">?</span></div>
-                    </div>
-                    <div>
-                        <p>VOUS</p>
-                        <div class="card-spot" style="border-style: solid;"><span class="card-val" id="p-card">?</span></div>
-                    </div>
-                </div>
-                <div style="margin-bottom: 20px;">
-                    <input type="number" id="bet-cards" value="50" min="1" style="width: 100px;">
-                    <p>Mise actuelle</p>
-                </div>
-                <button onclick="playCards()">Tirer une carte</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        /* --- JAVASCRIPT --- */
-        let balance = 0;
-        const symbols = ['🍒', '🍋', '🔔', '💎', '7️⃣'];
-
-        // Initialisation
-        function initCasino() {
-            const startMoney = document.getElementById('start-money').value;
-            balance = parseInt(startMoney);
-            if(isNaN(balance) || balance < 1) {
-                alert("Montant invalide");
-                return;
-            }
-            document.getElementById('login-screen').classList.add('hidden');
-            document.getElementById('main-ui').classList.remove('hidden');
-            updateUI();
-        }
-
-        // Mise à jour de l'interface et du thème
-        function updateUI() {
-            document.getElementById('balance-display').innerText = balance.toLocaleString() + " €";
-            const body = document.body;
-            const rank = document.getElementById('rank-text');
-            const title = document.getElementById('casino-title');
-
-            if (balance < 5000) {
-                body.className = 'tier-bronze';
-                rank.innerText = "BRONZE";
-                title.innerText = "LE BOUGE";
-            } else if (balance < 25000) {
-                body.className = 'tier-silver';
-                rank.innerText = "ARGENT";
-                title.innerText = "LE LOUNGE NEON";
-            } else if (balance < 100000) {
-                body.className = 'tier-gold';
-                rank.innerText = "OR";
-                title.innerText = "LE PALAIS IMPÉRIAL";
-            } else {
-                body.className = 'tier-vip';
-                rank.innerText = "DIAMANT VIP";
-                title.innerText = "L'OSTRACISME CELESTE";
-            }
-        }
-
-        // Navigation
-        function showLobby() {
-            document.getElementById('lobby-view').classList.remove('hidden');
-            document.getElementById('game-slots').classList.add('hidden');
-            document.getElementById('game-cards').classList.add('hidden');
-            document.getElementById('btn-lobby').classList.add('hidden');
-        }
-
-        function startSlots() {
-            document.getElementById('lobby-view').classList.add('hidden');
-            document.getElementById('game-slots').classList.remove('hidden');
-            document.getElementById('btn-lobby').classList.remove('hidden');
-        }
-
-        function startCards() {
-            document.getElementById('lobby-view').classList.add('hidden');
-            document.getElementById('game-cards').classList.remove('hidden');
-            document.getElementById('btn-lobby').classList.remove('hidden');
-        }
-
-        // Logique Machine à Sous
-        function playSlots() {
-            const bet = parseInt(document.getElementById('bet-slots').value);
-            if(bet > balance) return alert("Fonds insuffisants !");
-            if(bet <= 0) return alert("Mise invalide");
-
-            balance -= bet;
-            updateUI();
-
-            const btn = document.getElementById('spin-button');
-            btn.disabled = true;
-            btn.innerText = "TIRAGE...";
-
-            let count = 0;
-            const interval = setInterval(() => {
-                document.getElementById('r1').innerText = symbols[Math.floor(Math.random()*symbols.length)];
-                document.getElementById('r2').innerText = symbols[Math.floor(Math.random()*symbols.length)];
-                document.getElementById('r3').innerText = symbols[Math.floor(Math.random()*symbols.length)];
-                count++;
-                if(count > 10) {
-                    clearInterval(interval);
-                    finalizeSlots(bet);
-                }
-            }, 100);
-        }
-
-        function finalizeSlots(bet) {
-            const r1 = document.getElementById('r1').innerText;
-            const r2 = document.getElementById('r2').innerText;
-            const r3 = document.getElementById('r3').innerText;
-            const btn = document.getElementById('spin-button');
-            btn.disabled = false;
-            btn.innerText = "Lancer la machine";
-
-            if(r1 === r2 && r2 === r3) {
-                let win = bet * 15;
-                if(r1 === '7️⃣') win = bet * 50;
-                balance += win;
-                alert("🔥 JACKPOT ! Vous gagnez " + win + " € !");
-            } else if (r1 === r2 || r2 === r3 || r1 === r3) {
-                let win = Math.floor(bet * 2);
-                balance += win;
-            }
-            updateUI();
-        }
-
-        // Logique Jeu de Cartes
-        function playCards() {
-            const bet = parseInt(document.getElementById('bet-cards').value);
-            if(bet > balance) return alert("Fonds insuffisants !");
-            if(bet <= 0) return alert("Mise invalide");
-
-            balance -= bet;
-            
-            const pVal = Math.floor(Math.random() * 13) + 2;
-            const dVal = Math.floor(Math.random() * 13) + 2;
-
-            const cardNames = {11:'J', 12:'Q', 13:'K', 14:'A'};
-            document.getElementById('p-card').innerText = cardNames[pVal] || pVal;
-            document.getElementById('d-card').innerText = cardNames[dVal] || dVal;
-
-            if(pVal > dVal) {
-                balance += bet * 2;
-                // Petit effet de couleur temporaire pour la victoire
-                document.getElementById('p-card').parentElement.style.borderColor = "#00ff00";
-            } else if(pVal < dVal) {
-                document.getElementById('p-card').parentElement.style.borderColor = "#ff0000";
-            } else {
-                balance += bet;
-                document.getElementById('p-card').parentElement.style.borderColor = "white";
-            }
-            
-            updateUI();
-        }
-    </script>
+<script src="script.js"></script>
 </body>
 </html>
